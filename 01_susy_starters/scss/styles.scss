@@ -1,0 +1,65 @@
+@import "normalize";
+@import "susy";
+
+$susy:(
+  columns: 4, 
+  container: 1140px,
+  debug: (image: show), 
+  global-box-sizing: border-box
+  );
+
+@include border-box-sizing;
+
+.wrap {
+  @include container();
+  height: 100vh;
+}
+// ==========
+// Susy Layouts
+// ==========
+
+.content {
+  @include span(2);
+}
+
+@include nested(8) {
+  .inner-content {
+    @include span(4);
+  }
+}
+
+
+.sidebar {
+  @include span(1 last);
+}
+
+// ==========
+// Taking Care of CSS 
+// ==========
+
+.content {
+  margin-top: 10vh;
+  height: 80vh;
+  background: rgba(113, 218, 210, 0.8);
+}
+
+
+.inner-content {
+  margin-top: 0vh;
+  height: 80vh;
+  background: rgba(250, 0, 210, 0.6);
+}
+
+
+
+.sidebar {
+  margin-top: 10vh;
+  height: 40vh;
+  background: rgba(250, 231, 179, 0.8);
+}
+
+h2 {
+  padding: 1rem 0;
+  text-align: center;
+  color: #555;
+}

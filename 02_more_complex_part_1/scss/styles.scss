@@ -1,0 +1,120 @@
+@import "normalize";
+@import "susy";
+
+@mixin cf {
+  &:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+
+$susy: (columns: 16, container: 1140px, global-box-sizing: border-box, debug: (image: show));
+
+@include border-box-sizing;
+
+// ==========
+// Layouts
+// ==========
+
+.wrap {
+  @include container;
+}
+
+.logo {
+  float: left;
+  line-height: 2rem;
+  font-size: 1.5rem;
+}
+
+nav {
+  float: right;
+  li {
+    list-style: none;
+    float: left;
+    margin-left: 1em;
+    line-height: 2rem;
+  }
+}
+
+.content {
+  @include span(12 of 16);
+}
+
+.sidebar {
+  @include span(4 of 16 last);
+}
+
+.gallery {
+  @include cf;
+  background: rgb(200, 200, 2);
+  // Method 1 
+  width: span(10 of 12);
+  margin-left: auto;
+  margin-right: auto;
+
+  // Or alternatively: 
+  // margin-left: span(1 wide of 12);
+  // margin-left: span(1 of 12) + gutter(12)
+}
+
+// ==========
+// Taking Care of CSS 
+// ==========
+
+h2 {
+  padding: 1rem 0;
+  text-align: center;
+  color: #555;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.site-header, .site-footer {
+  background: rgba(234, 159, 195, 0.8);
+}
+
+.site-header {
+  a {
+    color: #555;
+    text-decoration: none;
+  }
+}
+
+.content {
+  margin-top: 5vh;
+  padding-bottom: 1rem;
+  background: rgba(113, 218, 210, 0.8);
+}
+
+.sidebar {
+  margin-top: 5vh;
+  background: rgba(250, 231, 179, 0.8);
+  padding-bottom: 1rem;
+  a {
+    color: #666;
+    padding-left: 1rem;
+    line-height: 2;
+    text-decoration: none;
+  }
+}
+
+.widget {
+  background: rgba(240, 150, 113, 0.8);
+}
+
+.site-footer {
+  margin-top: 5vh;
+}

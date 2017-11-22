@@ -1,0 +1,14 @@
+brew update
+brew install ruby
+sudo gem update --system
+sudo gem clean
+
+gem uninstall compass
+gem uninstall sass
+gem uninstall susy
+gem install susy
+gem install compass --pre
+
+
+
+
