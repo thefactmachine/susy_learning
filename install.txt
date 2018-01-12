@@ -7,7 +7,7 @@ gem uninstall compass
 gem uninstall sass
 gem uninstall susy
 gem install susy
-gem install compass --pre
+gem install compass --pre                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 
 
 
