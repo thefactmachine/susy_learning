@@ -414,14 +414,14 @@ table {
   border-spacing: 0;
 }
 
-/* line 21, ../../../../.rvm/gems/ruby-2.1.10/gems/susy-2.2.12/sass/susy/language/susy/_box-sizing.scss */
+/* line 21, ../../../.rvm/gems/ruby-2.4.1/gems/susy-2.2.12/sass/susy/language/susy/_box-sizing.scss */
 *, *:before, *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-/* line 13, ../scss/styles.scss */
+/* line 25, ../scss/styles.scss */
 .wrap {
   max-width: 1140px;
   margin-left: auto;
@@ -433,56 +433,56 @@ table {
   background-position: left top;
   height: 100vh;
 }
-/* line 12, ../../../../.rvm/gems/ruby-2.1.10/gems/susy-2.2.12/sass/susy/output/support/_clearfix.scss */
+/* line 12, ../../../.rvm/gems/ruby-2.4.1/gems/susy-2.2.12/sass/susy/output/support/_clearfix.scss */
 .wrap:after {
   content: " ";
   display: block;
   clear: both;
 }
 
-/* line 21, ../scss/styles.scss */
+/* line 36, ../scss/styles.scss */
 .content {
-  width: 47.36842%;
+  width: 73.68421%;
   float: left;
   margin-right: 5.26316%;
 }
 
-/* line 26, ../scss/styles.scss */
+/* line 56, ../scss/styles.scss */
 .inner-content {
   width: 48.71795%;
   float: left;
   margin-right: 2.5641%;
 }
 
-/* line 32, ../scss/styles.scss */
+/* line 62, ../scss/styles.scss */
 .sidebar {
   width: 21.05263%;
   float: right;
   margin-right: 0;
 }
 
-/* line 40, ../scss/styles.scss */
+/* line 73, ../scss/styles.scss */
 .content {
   margin-top: 10vh;
   height: 80vh;
-  background: rgba(113, 218, 210, 0.8);
+  background: rgba(255, 0, 0, 0.8);
 }
 
-/* line 47, ../scss/styles.scss */
+/* line 80, ../scss/styles.scss */
 .inner-content {
-  margin-top: 0vh;
-  height: 80vh;
-  background: rgba(250, 0, 210, 0.6);
+  margin-top: 10vh;
+  height: 40vh;
+  background: rgba(0, 250, 0, 0.6);
 }
 
-/* line 55, ../scss/styles.scss */
+/* line 88, ../scss/styles.scss */
 .sidebar {
   margin-top: 10vh;
   height: 40vh;
-  background: rgba(250, 231, 179, 0.8);
+  background: rgba(0, 0, 200, 0.8);
 }
 
-/* line 61, ../scss/styles.scss */
+/* line 94, ../scss/styles.scss */
 h2 {
   padding: 1rem 0;
   text-align: center;

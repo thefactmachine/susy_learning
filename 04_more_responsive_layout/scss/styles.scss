@@ -1,0 +1,234 @@
+@import "normalize";
+
+// this has been setup in the config.rb require 'breakpoint' 
+// requires the installation of the breakpoint Gem:  
+// $ sudo gem install breakpoint
+// Breakpoint provides us with a breakpoint() mixin. 
+// Syntax:  @include breakpoint($arg){ @content };
+// @content refers to CSS properties that you use within the media query
+
+@import "breakpoint";
+@import "susy";
+
+@mixin cf {
+  &:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+
+// we are using a mobile first method here....
+$susy: (columns: 8, 
+        container: 1140px, 
+        global-box-sizing: border-box, 
+        debug: (image: show));
+
+
+@include border-box-sizing;
+
+
+
+// ==========
+// Variables
+// ==========
+$tablet: 600px;
+$desktop: 980px;
+
+// ==========
+// Layouts
+// ==========
+// page 114
+.wrap {
+  @include container;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  // with @include border-box-sizing...the 
+  // the actual size of the content will be:
+  // 1140 - 15 - 15 = 1110
+
+
+  // Breakpoint for tablet view
+  @include breakpoint($tablet) {
+    @include show-grid(9);
+  }
+
+  // alternatively, could have written the following:
+  //   @include susy-breakpoint($tablet, 9) {
+  //   @include show-grid();
+
+    // Breakpoint for desktop view
+  // this will be the default when we open on a desktop
+  @include breakpoint($desktop) {
+    @include show-grid(16);
+  }
+}
+
+
+
+.logo {
+  float: left;
+  line-height: 2rem;
+  font-size: 1.5rem;
+}
+
+nav {
+  float: right;
+  li {
+    list-style: none;
+    float: left;
+    margin-left: 1em;
+    line-height: 2rem;
+  }
+}
+
+.content {
+  // We only include the breakpoint for desktop view.
+  // content takes up 100% on tablet and mobile but on desktop
+  // it takes up 12 of 16 columns.   
+  @include susy-breakpoint($desktop, 16) {
+    @include span(12);
+  }
+}
+
+.sidebar {
+  // on desktop the sidebar takesup only 4 columns.
+  @include susy-breakpoint($desktop, 16) {
+  @include span(4 last);
+  
+  }
+
+
+}
+
+.gallery {
+  @include cf;
+  // Method 1 
+  // width: span(10 of 12);
+  // margin-left: auto;
+  // margin-right: auto;
+  // Or alternatively: 
+  // margin-left: span(1 wide of 12);
+  // margin-left: span(1 of 12) + gutter(12)
+
+  // @include cf;
+  @include susy-breakpoint($desktop, 12) {
+    // padding with two values is top and bottom. 
+    padding: 0 span(1 wide of 12);
+    // following is alternative:
+    // padding: 0 span(1 of 12) + gutter(12);
+  }
+}
+
+
+.gallery__item {
+  // Constrain span to only mobile
+    @include susy-breakpoint(max-width $tablet, 8) {
+      @include span(4);
+      margin-bottom: gutter();
+      &:nth-child(2n) {
+        @include last;
+      }
+  }
+    // Constrain span to only tablet
+    @include susy-breakpoint($tablet $desktop, 9) {
+      @include span(3);
+      margin-bottom: gutter();
+      &:nth-child(3n) {
+        @include last;
+      }
+  }
+    // Constrain span to only desktop
+    @include susy-breakpoint($desktop,10) {
+      @include span(2);
+      margin-bottom: gutter();
+      &:nth-child(5n) {
+        @include last;
+      }
+  }
+}
+
+
+.widget {
+  @include gallery(4);
+  margin-bottom: gutter();
+
+  @include susy-breakpoint($desktop, 16) {
+    @include gallery(4);
+    margin-bottom: 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+// ==========
+// Taking Care of CSS 
+// ==========
+
+h2 {
+  padding: 1rem 0;
+  text-align: center;
+  color: #555;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.site-header, .site-footer {
+  background: rgba(234, 159, 195, 0.8);
+}
+
+.site-header {
+  a {
+    color: #555;
+    text-decoration: none;
+  }
+}
+
+.content {
+  margin-top: 5vh;
+  padding-bottom: 1rem;
+  background: rgba(113, 218, 210, 0.8);
+}
+
+.sidebar {
+  margin-top: 5vh;
+  background: rgba(250, 231, 179, 0.8);
+  padding-bottom: 1rem;
+  a {
+    color: #666;
+    padding-left: 1rem;
+    line-height: 2;
+    text-decoration: none;
+  }
+}
+
+.widget {
+  background: rgba(240, 150, 113, 0.8);
+}
+
+.site-footer {
+  margin-top: 5vh;
+    a {
+    color: #555;
+    text-decoration: none;
+  }
+}

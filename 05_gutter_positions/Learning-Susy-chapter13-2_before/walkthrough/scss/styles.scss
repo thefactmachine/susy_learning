@@ -1,0 +1,96 @@
+@import "normalize";
+@import "breakpoint";
+@import "susy";
+
+@mixin cf {
+  &:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+
+$susy: (columns: 8, container: 1140px, gutter-position: before, global-box-sizing: border-box, debug: (image: show));
+
+@include border-box-sizing;
+
+// ==========
+// Layouts
+// ==========
+
+.wrap {
+  @include container;
+}
+
+.content {
+  @include span(6 first);
+}
+
+.sidebar {
+  @include span(2);
+}
+
+.gallery {
+  @include cf;
+}
+
+.gallery__item {
+  @include cf;
+  @include nested(6) {
+    @include span(2);
+    &:first-child {
+      @include first;
+    }
+  }
+}
+
+.gallery__subitem {
+  @include nested(2) {
+    @include span(1);
+    &:nth-child(2) {
+      @include first;
+    }
+  }
+}
+
+// ==========
+// Taking Care of CSS 
+// ==========
+
+.content {
+  margin-top: 10vh;
+  background: rgba(113, 218, 210, 0.5);
+}
+
+.sidebar {
+  margin-top: 10vh;
+  height: 40vh;
+  background: rgba(250, 231, 179, 0.8);
+}
+
+.gallery__item:nth-child(odd) {
+  background: rgba(244, 49, 11, 0.5);
+}
+
+.gallery__item:nth-child(even) {
+  background: rgba(250, 231, 179, 0.5);
+}
+
+.gallery__subitem:nth-child(odd) {
+  background: rgba(20, 231, 179, 0.5);
+}
+
+.gallery__subitem:nth-child(even) {
+  background: rgba(124, 11, 19, 0.5);
+}
+
+.full {
+  margin-top: 1rem;
+  background: rgba(123, 222, 22, 0.5);
+}
+
+h2 {
+  padding: 1rem 0;
+  text-align: center;
+  color: #555;
+}

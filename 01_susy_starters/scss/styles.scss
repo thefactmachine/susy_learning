@@ -2,14 +2,26 @@
 @import "susy";
 
 $susy:(
+  
+  // this sets the context ...this means instead of
+  // writing "span 2 of 4" we write "span(2)"
   columns: 4, 
+
+  // basically this sets the maximimum width. 
+  // automatically adjusts when using a Retina display.
   container: 1140px,
+  // display the debug grid...
   debug: (image: show), 
+  // set the border-box so the size is defined as outside the border
   global-box-sizing: border-box
   );
 
 @include border-box-sizing;
 
+// wrap is main div...everything is underneath this....
+// .wrap defines a max width of 1140 px.  
+// .wrap defines: margin-left: auto; margin-right: auto;
+// wrap defines the height and also a ton of other stuff related to the background grid.
 .wrap {
   @include container();
   height: 100vh;
@@ -18,9 +30,27 @@ $susy:(
 // Susy Layouts
 // ==========
 
+// the columns above of 4 sets the context.
+// this means that the below is equivalent to span(2 of 4)
+
 .content {
-  @include span(2);
+  @include span(3);
 }
+
+// Since we wrapped a nested(8) above the span(4) , 
+// the eventual output will mean the same as:
+// span 4 of 8
+
+//  If no with-layout() or nested() mixin is found wrapping 
+// the span() mixin, Susy will automatically go all the way back 
+// up to the $susy map to get the context.If no with-layout() 
+// or nested() mixin is found wrapping the span() mixin, 
+// Susy will automatically go all the way back up to the $susy map to get the context.
+
+// so because the content is set to 3 columns....
+// and then we define content as having 8 columns....
+// and then define the inner contect taking up 4 of the 8 columns....
+// this means that the inner content will be 4/8 * 3 columns =  1.5 columns. 
 
 @include nested(8) {
   .inner-content {
@@ -28,7 +58,7 @@ $susy:(
   }
 }
 
-
+// last means do not add a gutter....
 .sidebar {
   @include span(1 last);
 }
@@ -37,17 +67,20 @@ $susy:(
 // Taking Care of CSS 
 // ==========
 
+// vh is the % height of the viewport....
+
+
 .content {
   margin-top: 10vh;
   height: 80vh;
-  background: rgba(113, 218, 210, 0.8);
+  background: rgba(255, 0, 0, 0.8);
 }
 
 
 .inner-content {
-  margin-top: 0vh;
-  height: 80vh;
-  background: rgba(250, 0, 210, 0.6);
+  margin-top: 10vh;
+  height: 40vh;
+  background: rgba(0, 250, 0, 0.6);
 }
 
 
@@ -55,7 +88,7 @@ $susy:(
 .sidebar {
   margin-top: 10vh;
   height: 40vh;
-  background: rgba(250, 231, 179, 0.8);
+  background: rgba(0, 0, 200, 0.8);
 }
 
 h2 {

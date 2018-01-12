@@ -1,7 +1,8 @@
 # A More Complex Example
-We removed margins and paddings for all <ul>, <ol> and <li> elements.
-
-Also removed list styles from all <li> elements.   
+We removed margins and paddings for all:
+> ul, ol and li elements.
+ 
+Also removed list styles from all li elements.   
 
 Finally, added max-width: 100% and height: auto to make images responsive.
 
@@ -22,7 +23,10 @@ debug: (image: show));
 
 ## The header section
 This does not use any Susy constructs.  There are five menu items.  These
-are on the right hand side of the top menu.  Their container (i.e. <nav> ) is floated right but each of the elements is floated left insider their container.
+are on the right hand side of the top menu.  Their container (i.e. <nav> ) is floated right but each of the elements is floated left inside their container.
+
+So, the entire navigation section is pushed to the right.
+And, then each of the list elements is floated to the left.
 
 ### Navigation Bar to be 100%
 We put everything inside a div element with the general "wrap" class.

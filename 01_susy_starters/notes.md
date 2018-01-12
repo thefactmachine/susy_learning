@@ -10,9 +10,38 @@ Every project begins with a $susy map which is just a key value structure.
 ```
 global-box-sizing: border-box  
 ```
-Inside the suzy map makes sure that the boxe's size will be set to the outside of their border.
+The above command makes sure that the boxe's size will be set to the outside of their border.
 
 Remember that the box model goes from: content to padding to border to margin.
+
+## Example of Susy Header
+
+```
+@import "normalize";
+@import "susy";
+
+$susy:(
+  
+  // this sets the context ...this means instead of
+  // writing "span 2 of 4" we write "span(2)"
+  
+  columns: 4, 
+
+  // basically this sets the maximimum width. 
+  // automatically adjusts when using a Retina display.
+  
+  container: 1140px,
+  
+  // display the debug grid...
+  
+  debug: (image: show), 
+  
+  // set the border-box so the size is defined as outside the border
+  
+  global-box-sizing: border-box
+  );
+  
+```
 
 ## Grid container
 Every grid requires a grid container.  This is the div element with class wrap as shown below:
@@ -37,8 +66,12 @@ If the website is to be resposive, the container needs a
 max-width property instead of a width property.  Including the container as shown **above**, generates the following CSS:
 
 ```
-.wrap {max-width: 960px;margin-left: auto;margin-right: auto;}
+.wrap {max-width: 1140px;margin-left: auto;margin-right: auto;}
 ```
+
+Setting the margins to "auto" will effectively centre the content.
+
+
 
 If we want the maximum width of the container to be 1140px, we can tell Susy to create this container by adding the container key to the $susy map.
 
@@ -106,6 +139,7 @@ Here we define the scss
   @include span(1);
 }
 ```
+See the accompanying comments in the CSS. 
 
 
 
