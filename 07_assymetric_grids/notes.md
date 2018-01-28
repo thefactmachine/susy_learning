@@ -118,41 +118,274 @@ The following is an example of setting the $med map:
 *This is page 204.*
 
 ## Understanding the HTML
-The following describes the content from the start up until "about  Carol Twombly"
+The following describes the content from the start up until "about  Carol Twombly"  There are three sections with basically the same format.  Here is an outline of the three sections.  The detail within each section is **not** shown below:
 
-Everything is surrounded by a div wrap class. This includes the section "about Carol Twombly".
 
-The first sections up until "Carol Twombly" are surrounded by div "content intro"
+```
+<div class = "wrap">
+	<div class = "content intro">  content here </div>
+	<div class = "content">  content here </div>
+	<div class = "content">  content here </div>
+</div>
 
-The title "This is Chapparal" is an H1 with a class of "title".
+```
 
-The sub-title "Created by Adobe type ..." is h2 with the class of "sub-title"
+The following is the basic structure for a single section.  The content__left and content_right are used for large layout.  When they are layed out using a multi-column type layout.
 
-The first paragraph "The result is a versatile.."  is a div style "content_left".  This is further wrapped in p tage.
+```
+<div class = "wrap">
+	<div class = "content intro"> 
+		<h2> header section here </h2>
+		<div class = "content__left">  text goes here  </div>
+		<div class = "content__right"> text goes here </div>
+	</div>
+</div>
 
-The second paragraph "Like a drought-resistant" is a div style "content__right."  This is further wrapped in p tage.
+```
 
-### Notes about the mobile version
-The heading take up two of the two columns.  The relevant SCSS seems to be:
+
+## Notes on context
+We can ignore the strings of decimal points when creating the asymmetric grid.  All we need to know is the **number of columns** in each layout. 
+
+*  $small has 2 columns
+*  $medium has 4 columns
+*  $large has 5 columns
+
+
+### SCSS for content_left and content_right
+It is the following:
+
+```
+.content__left, 
+.content__right {
+	clear: both
+	@include span(1 last);
+
+}
+
+``` 
+
+This generates the following CSS:
+
+```
+float: left;
+margin-left: 15.41851%;
+margin-right: -100%;
+
+```
+
+So, the above seems to set content-left and content-right to a single right-most column.
+
+Since, the content on the intro takes up the two columns, we can create a selector with a higher
+specificity to override what we have already declared.
 
 ```
 .intro {
-  .content__left, .content__right {
-      @include span(full);
-    }
+	.content__left,
+	.content_right {
+		@include span(full);
+	}
 }
 
 ```
-The above means use the entire two columns.  As everything is basically inside an intro class, then the h3 element gets the two columns.  [need to check specificity settings to see why the actual content text gets the right column (i.e the second column...).  
 
-The SCSS for the content_left and content_right have the follwing SCSS:
+The above results in the following CSS:
 
 ```
-.content__left,
-.content__right {
-  clear: both;
-  @include span(1 last);
+@media (max-width: 529px) {
+  .intro .content__left, .intro .content__right {
+    width: 100%;
+    float: left;
+    margin-left: 0;
+    margin-right: 0; } }
+
+```
+
+
+We now give .content a clearfix since all its child elements are floated.
+
+.content {
+	@include cf;
 }
+
+--------------
+## Medium Layout
+Firstly we need to define the outer .wrap class:
+
+```
+.wrap  {
+	@include container;
+	@include susy-breakpoint($bp-med, $med) {
+		max-width: 100%;
+		@include show-grid;
+	}
+}
+
 ```
 
-So, this occupies only the second column.
+The medium grid has 4 columns.  
+
+The content spans the two middle columns and is starts on the second 
+column:
+
+```
+.content {
+	@include cf;
+	@include susy-breakpoint(530px, $med) {
+			@include span(2 at 2);
+	}
+}
+
+
+```
+
+### Getting the columns value from a specific context:
+
+The following gets the columns key from the map called $med.
+
+```
+$columns: map-get($med, columns)
+
+```
+Then, we use @debug to log out the value $columns to see if we have the correct value.
+
+```
+@debug $columns; // returns: 1, 1.62, 6.85, 1
+```
+
+Next, we need to find the context.
+
+We can this context with the nested() function that Susy provides.
+
+```
+$context: nested(2 of $columns at 2);
+@debug $context; // returns 1.62 6.85
+
+```
+
+Now, we can use this context within the span() mixin.
+
+```
+.content-left,
+.content-right {
+	clear: both;
+	@include span(1 last);
+	
+	@include breakpoint($bp-med) {
+		// get the columns key from the $med key / value map
+		$columns: map-get($med, columns);
+		$context:nested(2 of $columns at 2);
+		// I have not idea why this is "1 of..."  I would have thought it would have been
+		// two....
+		@include span(1 of $context last);
+	}
+}
+
+
+```
+
+We can further shorten things up...quite a bit:
+
+```
+// the following two lines:
+$columns: map-get($med, columns);
+$context: nested(2 of $columns at 2);
+// Can be replaced by:
+$context: nested(2 of map-get($med, columns) at 2);
+
+```
+
+### Targeting the smallest layout
+The intro pargraph is only different on the smallest breakpoint.  The max-with media query will get activated when when it is **less than** the parameter given.  In the following, it will be activated when the viewport is **less than** $bp-med - 1.
+
+```
+.intro {
+	.content-left, content-right {
+		@include breakpoint(max-width $bp-med -1) {
+			@include span(full);
+		}
+	}
+}
+
+```
+
+## Large Layout
+The large layout has a 5 column setup.  We change the grid accordingly in the .wrap section (not shown).
+
+The .content now spans 3 columns in the $large layout and it starts on the second column. 
+
+This is how we code this:
+
+```
+.content {
+	//......
+	@include susy-breakpoint($bp-large, $large) {
+		// span 3 columns and start it at the second column
+		@include span(3 at 2)		
+	}
+}
+
+```
+
+Now we add the bit for .content-left and .content-right
+
+```
+// see code 16-3
+.content-left, content-right {
+	// ..
+	@include breakpoint($bp-large) {
+		// map-get extracts the columns key from the $large map
+		// we get 3 columns started from column two
+		@include nested(3 of map-get($large, columns) at 2) {
+			// start at the second column...??  this bit is a mystery...
+			@include span(2 last);
+	}
+}
+
+```
+
+
+## Extra Large Layout
+The background grid is the same as for the large layout.  The only thing that has changed is the .content-left and content-right takes up 1 column.  The left takes up the 3rd column and the right takes up the 4th column. 
+
+### Nested Grid Items
+.content-left and content-right are nested grid items.  Not sure exactly what this means.
+
+The CSS for .content-left is:
+
+```
+.content-left {
+	@include breakpoint($bp-xlarge) {
+	 @include nested(3 of map-get($large, columns) at 2) {
+	 	@include span(1 at 2);
+		}
+	}
+}
+
+```
+
+The CSS for .content-right is as follows. Both .content-left and content-right have a clear:both property built into them.  This clear:both is causing the .content-right to create a new row for itself.  Since we want both of them to be on the same row, we need to remove this clear: both property from .content-right.
+
+
+```
+.content-right {
+@include breakpoint($bp-xlarge) { 
+	clear:none
+	@include nested(3 of map-get($large, columns) at 2) {
+		@include spand(1 last);
+		}
+	}
+}
+
+```
+
+The code above can be made dryer by combining the .content-left and content-right selectors.  See the example. 
+
+See the code 16-4.
+
+
+
+
+
+
+

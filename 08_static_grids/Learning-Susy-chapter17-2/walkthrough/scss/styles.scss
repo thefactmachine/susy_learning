@@ -1,0 +1,75 @@
+@import "normalize";
+@import "breakpoint";
+@import "susy";
+
+@mixin cf {
+  &:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+
+// Global Settings
+$susy: (
+  columns: 4,
+  column-width: 90px,
+  gutters: 15px / 90px, // or 0.166666667
+  math: static,
+  global-box-sizing: border-box,
+  debug: (image: show)
+  );
+
+@include border-box-sizing;  
+
+// ==========
+// Layouts
+// ==========
+
+$bp-med: 845px; 
+$bp-large: 1245px;
+$med: 8;
+$large: 12;
+
+.wrap {
+  @include container; 
+  @include susy-breakpoint($bp-med, $med) {
+    width: span($med);
+    @include show-grid;
+  }
+}
+
+
+.content {
+  @include susy-breakpoint($bp-med, $med) {
+    @include span(4);
+  }
+}
+
+.sidebar1 {
+  @include susy-breakpoint($bp-med, $med) {
+    @include span(2);
+  }
+}
+
+.sidebar2 {
+  @include susy-breakpoint($bp-med, $med) {
+    @include span(2 last);
+  }
+}
+
+// ==========
+// Taking care of CSS
+// ==========
+.content {
+  background: rgba(113, 218, 210, 0.8);
+}
+
+.sidebar1, .sidebar2 {
+  background: rgba(250, 231, 179, 0.8);
+}
+
+h2 {
+  padding: 1rem 0;
+  text-align: center;
+}
